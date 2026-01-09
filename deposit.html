@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alke Wallet - Depositar</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    body { padding: 20px; background-color: #f8f9fa; }
+    .container { max-width: 450px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 50px; }
+    h2 { color: #6f42c1; font-weight: bold; text-align: center; margin-bottom: 25px; }
+    .btn-pink { background-color: #e83e8c; border: none; color: white; width: 100%; font-weight: bold; padding: 12px; }
+    .btn-pink:hover { opacity: 0.9; color: white; }
+    label { font-weight: 500; color: #495057; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Realizar Depósito</h2>
+    <form id="depositForm">
+      <div class="form-group">
+        <label for="depositAmount">Monto a depositar:</label>
+        <input type="number" class="form-control" id="depositAmount" placeholder="Ej: 5000" required min="1">
+      </div>
+      <button type="submit" class="btn btn-pink">Confirmar Depósito</button>
+    </form>
+    <hr>
+    <a href="menu.html" class="btn btn-outline-secondary btn-block">Volver al Menú</a>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#depositForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        const amount = parseInt($('#depositAmount').val());
+        let currentBalance = parseInt(localStorage.getItem('balance')) || 0;
+
+     
+        const newBalance = currentBalance + amount;
+        localStorage.setItem('balance', newBalance);
+
+    
+        let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+        transactions.unshift({
+          desc: "Depósito de fondos",
+          amt: amount,
+          date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+        });
+        localStorage.setItem('transactions', JSON.stringify(transactions));
+
+        alert("¡Depósito exitoso! Tu nuevo saldo es: $" + newBalance.toLocaleString());
+        window.location.href = "menu.html";
+      });
+    });
+  </script>
+</body>
+</html>
