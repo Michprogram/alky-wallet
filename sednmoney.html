@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Alke Wallet - Enviar</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    h2, h3 { color: #6f42c1; }
+    .btn-pink { background-color: #e83e8c; color: white; }
+    .btn-purple { background-color: #6f42c1; color: white; }
+  </style>
+</head>
+<body class="p-4">
+  <div class="container" style="max-width: 500px;">
+    <h2>Enviar Dinero [cite: 21]</h2>
+    
+    <div class="form-group mt-3">
+      <label>Buscar Contacto:</label>
+      <input type="text" id="searchContact" class="form-control" placeholder="Escribe un nombre...">
+      <div id="sug" class="list-group"></div>
+    </div>
+
+    <button class="btn btn-purple btn-block mb-4" data-toggle="modal" data-target="#modalContact">
+      Agregar nuevo contacto [cite: 103]
+    </button>
+
+    <div class="form-group">
+      <label>Monto a transferir:</label>
+      <input type="number" id="sendAmount" class="form-control" placeholder="0">
+    </div>
+
+    <button onclick="realizarEnvio()" class="btn btn-pink btn-block">Enviar Dinero</button>
+    <a href="menu.html" class="btn btn-link btn-block">Volver</a>
+  </div>
+
+  <div class="modal fade" id="modalContact" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header"><h5>Nuevo Contacto</h5></div>
+        <div class="modal-body">
+          <input type="text" id="newName" class="form-control mb-2" placeholder="Nombre y Apellido">
+          <input type="text" id="newCBU" class="form-control mb-2" placeholder="CBU">
+          <input type="text" id="newBank" class="form-control mb-2" placeholder="Banco">
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-pink" onclick="addC()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script>
+    let contactos = ["John Doe", "Jane Smith"];
+
+    // Función de autocompletar simple con jQuery [cite: 133]
+    $('#searchContact').on('keyup', function() {
+      let val = $(this).val().toLowerCase();
+      $('#sug').empty();
+      if(val) {
+        contactos.filter(c => c.toLowerCase().includes(val)).forEach(c => {
+          $('#sug').append(`<button class='list-group-item list-group-item-action' onclick='sel("${c}")'>${c}</button>`);
+        });
+      }
+    });
+
+    function sel(n) { $('#searchContact').val(n); $('#sug').empty(); }
+
+    function addC() {
+      contactos.push($('#newName').val());
+      $('#modalContact').modal('hide');
+      alert("Contacto agregado correctamente [cite: 122]");
+    }
+
+    function realizarEnvio() {
+      const amt = Number($('#sendAmount').val());
+      const balance = Number(localStorage.getItem('balance'));
+      
+      if(amt > 0 && amt <= balance) {
+        localStorage.setItem('balance', balance - amt);
+        let txs = JSON.parse(localStorage.getItem('transactions'));
+        txs.unshift({ desc: `Transferencia a ${$('#searchContact').val()}`, amt: -amt, date: new Date().toLocaleDateString() });
+        localStorage.setItem('transactions', JSON.stringify(txs));
+        alert("Transferencia exitosa [cite: 21]");
+        window.location.href = "menu.html";
+      } else {
+        alert("Saldo insuficiente o monto inválido");
+      }
+    }
+  </script>
+</body>
+</html>
