@@ -1,4 +1,7 @@
 # allky-waller
+user@wallet.com
+1234
+
 Alke Wallet 💼 
 
 
