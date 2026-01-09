@@ -12,10 +12,13 @@ Alke Wallet es una aplicación de billetera digital diseñada para que los usuar
 
 Inicio de Sesión: Acceso seguro con validación de credenciales.
 +1
+
 Gestión de Saldo: Visualización de dinero en cuenta y realización de depósitos.
 +1
+
 Envío de Dinero: Simulación de transferencias a contactos.
 +1
+
 Historial: Registro completo de todos los movimientos realizados.
 +1
 
