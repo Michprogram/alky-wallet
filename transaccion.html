@@ -36,14 +36,14 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(document).ready(function() {
-      // Obtener transacciones del LocalStorage [cite: 24]
+
       const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
       const $list = $('#txList');
 
       if (transactions.length === 0) {
         $('#noData').show();
       } else {
-        // Generar la lista dinámicamente [cite: 136]
+
         transactions.forEach(function(tx) {
           const isPositive = tx.amt > 0;
           const amtClass = isPositive ? 'amt-pos' : 'amt-neg';
@@ -65,3 +65,4 @@
   </script>
 </body>
 </html> 
+
